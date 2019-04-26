@@ -1,5 +1,5 @@
 import re
-import dbapi
+import dbapi as db
 
 ### 读取文件
 #file1 = open("innerinterfaces.txt","r")
@@ -42,12 +42,12 @@ innertable = 'innerinterface'
 createinnertable = 'create table `' + innertable + '`(`key` int(10) NOT NULL, `value` JSON  NOT NULL, PRIMARY KEY(`key`)'
 insertdata = 'insert into `'+ innertable + '` values (?,?)'
 innerdata = []
-for dd in range(len(apikeys)-1)
+for dd in range(len(apikeys)-1):
 	data.append((apikeys[dd], list1[dd])
 
-conn=get_conn(dbname)
-drop_table(innertable)
-create_table(conn, createinnertable)
-save(conn, insertdata,innerdata)
+#conn = dbapi.get_conn(dbname)
+db.drop_table(innertable)
+db.create_table(conn, createinnertable)
+db.save(conn, insertdata,innerdata)
 
 
