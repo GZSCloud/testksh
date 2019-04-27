@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# @Time    : 2017-06-09 14:09
-# 接口自动化测试:接口规范保存入库；
+# @Time    : 2019-04-19 14:09
+# 接口自动化测试:接口测试数据保存入库；
 
-# 接口信息
+# 包含3个模块,readinterface.py是用来读入接口文件,数据处理后,写入到数据库;writedata用来将编写的测试用例文件，数据处理后，读入到数据库，test.py用来测试
+ 
+#接口信息
 #接口名称：   xxxx
 #简单描述：   xxxx
 #请求地址：   /order
@@ -19,7 +21,26 @@
 #    "spec":规格型号
 #   }]
 
+import dbapi
 
+dbname = './interface.db'
+datatable = 'innerinterface'
+createdatatable = 'create table ' + datatable + '(key int(10) primary key  NOT NULL, value JSON  NOT NULL)'
+insertdata = 'insert into `'+ datatable + '` values (?,?)'
+testdata = []
+for d1 in range(len(apikeys)):
+	innerdata.append((apikeys[d1], list1[d1]))
+
+# 写入数据库
+conn = dbapi.get_conn(dbname)
+dbapi.drop_table(conn, innertable)
+conn = dbapi.get_conn(dbname)
+dbapi.create_table(conn, createinnertable)
+conn = dbapi.get_conn(dbname)
+dbapi.save(conn, insertdata,innerdata)
+
+
+# 分为2个部分，1个是写入测试数据，1个是自动测试。不断读取json文件来测试。 
 API_ALL = {
             '登录接口': {
                             'number': '1',
@@ -51,6 +72,9 @@ API_ALL = {
                                       }
             }
 }
+
+
+
 
 
 # 常用参数不传，为空，整形，浮点，字符串，object,过短，超长，sql注入
@@ -97,7 +121,8 @@ class gj():
 
 # 脚本类，组合工具参数进行请求
 import sys
-sys.path.append(os.getcwd()+"\\lib")
+import os
+sys.path.append(os.path.dirname(os.path.realpath(__file__))+'\\lib')
 import requests
 
 gj = gj()
@@ -126,6 +151,10 @@ def jball():
                 print("=响应=api编号："+number+"  响应code："+fhcode+"  响应时间:"+xysj)
 #jball()
 
+import sys
+import os
+sys.path.append(os.getcwd()+"\\lib")
+import requests
 
 import unittest
 import time
