@@ -1,5 +1,5 @@
 import re
-import dbapi as db
+import dbapi
 
 ### 读取文件
 #file1 = open("innerinterfaces.txt","r")
@@ -10,7 +10,7 @@ str1 = file1.read()
 # 正则就是字符串处理,"\n"被当成了字符(ASCII值为"5C 6E"),“\n2.”就无法识别为“以2.开头”，所以去掉“r'(^[0-9]+\.)'”中的“^”.
 # 正则是否带r，也有区别。有r会保留匹配的项，没有r去掉匹配的项。所以去掉“r'([0-9]+\.)'”中的“r”
 # 获取ID
-apikeys = re.findall(r'(^[0-9]+\.)', str1, re.M)
+apikeys = re.findall(r'(^[0-9]+)\.', str1, re.M)
 
 #获取json内容
 apivalues = re.split('[0-9]+\.', str1)
@@ -33,21 +33,21 @@ trans1=[('：',':'),(' ',''),('^\n',''),('(\n)+','\n'),('\n}','}'),('\n{','{'),(
 for o1,t1 in trans1:
 	values_map = map(lambda _:re.sub(o1,t1,_,0,0),list1)
 	list1=map2list(values_map)
-print(list1)
 
 ### 写入数据库
 # 建库表
-dbname = './interface'
+dbname = './interface.db'
 innertable = 'innerinterface'
-createinnertable = 'create table `' + innertable + '`(`key` int(10) NOT NULL, `value` JSON  NOT NULL, PRIMARY KEY(`key`)'
+createinnertable = 'create table ' + innertable + '(key int(10) primary key  NOT NULL, value JSON  NOT NULL)'
 insertdata = 'insert into `'+ innertable + '` values (?,?)'
 innerdata = []
-for dd in range(len(apikeys)-1):
-	data.append((apikeys[dd], list1[dd])
+for d1 in range(len(apikeys)):
+	innerdata.append((apikeys[d1], list1[d1]))
 
-#conn = dbapi.get_conn(dbname)
-db.drop_table(innertable)
-db.create_table(conn, createinnertable)
-db.save(conn, insertdata,innerdata)
-
-
+# 写入数据库
+conn = dbapi.get_conn(dbname)
+dbapi.drop_table(conn, innertable)
+conn = dbapi.get_conn(dbname)
+dbapi.create_table(conn, createinnertable)
+conn = dbapi.get_conn(dbname)
+dbapi.save(conn, insertdata,innerdata)
