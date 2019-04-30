@@ -33,12 +33,12 @@ apivalues=[]
 # 获取ID
 #findall返回最短值，finditer返回最长的值，如第一条结果对应为"1.1"和"1.1.1"。"坑“
 #apikeys = listre.findall(r'(^[0-9]\.+[0-9])',  apis, re.M)
-api1 = re.finditer(r'([0-9]\.)+[0-9]+',  apis, re.M)
+api1 = re.finditer(r'([0-9]+\.)+[0-9]+',  apis, re.M)
 for aa in api1:
 	apikeys.append(aa.group())
 
 #获取json内容
-apivalues = re.split('([0-9]\.)+[0-9]+', apis)
+apivalues = re.split('(?:[0-9]+\.)+[0-9]+', apis)
 # 去掉list中的第一个空对象
 apivalues.pop(0)
 # utf8格式中，汉字为3个ASCII字符。去掉所有的空格(ASCII值为20)和tab键(ASCII值为09)，tab一般会变成多个空格。
