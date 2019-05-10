@@ -51,7 +51,7 @@ sqlite3.9之后支持JSON字段和相应的处理，改造为支持JSON的格式
 '''
 
 #global var
-#数据库文件绝句路径
+#数据库文件绝对路径
 DB_FILE_PATH = ''
 #表名称
 TABLE_NAME = ''
